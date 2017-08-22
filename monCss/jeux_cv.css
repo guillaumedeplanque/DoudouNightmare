@@ -1,0 +1,88 @@
+/* Zone header du site */
+#menu_bar {
+  width: 100%;
+  height: 20%;
+  font-family: 'Henny Penny', cursive;
+}
+/* Titre principale (jeux) */
+h1 {
+  font-size: 55px;
+  color: white;
+  text-align: center;
+}
+.element {
+  animation: pulse 2.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    text-shadow: 12px 12px 12px purple, 3px 3px 4px pink;
+  }
+
+}
+/* Navigation header liens */
+.choixCategorie {
+  text-align: center;
+}
+
+
+/* Coté gauche du site */
+#cote_site1 {
+  width: 19.5%;
+  height: 100%;
+  float: left;
+  overflow: hidden;
+  display: block;
+}
+
+/* placement Zombie 1 */
+/*#containerZombie {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  top: 250px;
+  left: 185px;
+}
+#zombie1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+}*/
+/*  Fin placement Zombie 1 */
+
+/* Zone Du jeux */
+
+#jeux {
+  width: 640px;
+  height: 640px;
+  border: 1px solid purple;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+}
+
+#girl {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/*  Coté droit du site */
+
+#cote_site2 {
+  width: 19.5%;
+  height: 100%;
+  float: left;
+  overflow: hidden;
+  display: block;
+
+}
+
+body {
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
