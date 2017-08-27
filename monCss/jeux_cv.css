@@ -4,6 +4,7 @@
   height: 20%;
   font-family: 'Henny Penny', cursive;
 }
+
 /* Titre principale (jeux) */
 h1 {
   font-size: 55px;
@@ -26,57 +27,38 @@ h1 {
 }
 
 
-/* Coté gauche du site */
-#cote_site1 {
-  width: 19.5%;
-  height: 100%;
-  float: left;
-  overflow: hidden;
-  display: block;
-}
-
-/* placement Zombie 1 */
-/*#containerZombie {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-  top: 250px;
-  left: 185px;
-}
-#zombie1 {
-  position: absolute;
-  top: 0;
-  left: 0;
-}*/
-/*  Fin placement Zombie 1 */
-
 /* Zone Du jeux */
 
-#jeux {
-  width: 640px;
-  height: 640px;
-  border: 1px solid purple;
+.background {
+  width: 800px;
+  height: 518px;
   margin: 0 auto;
   display: block;
   position: relative;
+  background-image: url('../image_jeux/the_cellar_bord.png')
 }
 
-#girl {
+#jeux {
+  width: 610px;
+  height: 328px;
+  background-image: url('../image_jeux/the_cellar_fond.png');
+  position: absolute;
+  top: 95px;
+  left: 95px;
+}
+
+canvas {
+  outline: none;
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/*  Coté droit du site */
-
-#cote_site2 {
-  width: 19.5%;
-  height: 100%;
-  float: left;
-  overflow: hidden;
-  display: block;
-
+#character {
+  z-index: 2;
+}
+#monster {
+  z-index: 1;
 }
 
 body {

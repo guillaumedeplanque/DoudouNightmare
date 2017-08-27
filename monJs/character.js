@@ -23,13 +23,11 @@ function Personnage() {
 
 	this.speed = 10;
 
-	this.canvas = document.getElementById('canvas');
+	var canvas = document.getElementById('character');
 	var gameZone = document.getElementById('jeux');
-	this.canvas.width = gameZone.offsetWidth;
-	this.canvas.height = gameZone.offsetHeight;
+	this.canvasWidth = gameZone.offsetWidth;
+	this.canvasHeight = gameZone.offsetHeight;
 	this.ctx = canvas.getContext('2d');
-	this.character = new Image();
-	this.character.src = './perso_principal/girl_principal2.png'
 
 	this.updateFrame = function() {
 		this.currentFrame = ++this.currentFrame % this.frameCount;
@@ -37,13 +35,18 @@ function Personnage() {
 	}
 
 	this.draw = function() {
-		this.ctx.drawImage(this.character, this.srcX, this.srcY, this.width, this.height, this.x, this.y, this.width, this.height)
+		var image = new Image()
+		image.src = './perso_principal/girl_principal2.png'
+		var self = this;
+		image.onload = function() {
+			self.ctx.drawImage(image, self.srcX, self.srcY, self.width, self.height, self.x, self.y, self.width, self.height)
+		}
 	}
 
 	this.moveRight = function() {
 		this.srcY = this.trackRight * this.height;
 		this.ctx.clearRect(this.x, this.y, this.width, this.height)
-		this.x = ((this.x + this.speed) + this.width > this.canvas.width) ? this.x : this.x + this.speed
+		this.x = ((this.x + this.speed) + this.width > this.canvasWidth) ? this.x : this.x + this.speed
 		this.draw();
 		this.updateFrame();
 	}
@@ -59,7 +62,7 @@ function Personnage() {
 	this.moveBottom = function() {
 		this.srcY = this.trackBottom * this.height;
 		this.ctx.clearRect(this.x, this.y, this.width, this.height);
-		this.y = ((this.y + this.speed) + this.height > this.canvas.height) ? this.y : this.y + this.speed
+		this.y = ((this.y + this.speed) + this.height > this.canvasHeight) ? this.y : this.y + this.speed
 		this.draw();
 		this.updateFrame();
 	}
@@ -71,23 +74,18 @@ function Personnage() {
 		this.draw();
 		this.updateFrame();
 	}
-}
 
-var perso = new Personnage();
-perso.draw();
-perso.canvas.addEventListener('keydown', function(e) {
-  switch(e.keyCode) {
-  	case 37:
-  	  perso.moveLeft();
-  	  break;
-  	case 38:
-  	  perso.moveUp();
-  	  break;
-    case 39:
-      perso.moveRight();
-      break;
-    case 40:
-      perso.moveBottom();
-      break;
-  }
-})
+	this.detectCollisionWithMonster = function(monster) {
+		if (this.x < monster.x + monster.desiredLength  && this.x + this.width  > monster.x &&
+		this.y < monster.y + monster.desiredLength && this.y + this.height > monster.y) {
+			console.log('Monster touched')
+		}
+	}
+
+	this.detectCollisionWithBonus = function(bonus) {
+		if (this.x < bonus.x + bonus.width  && this.x + this.width  > bonus.x &&
+		this.y < bonus.y + bonus.height && this.y + this.height > bonus.y) {
+			bonus.destroy();
+		}
+	}
+}
