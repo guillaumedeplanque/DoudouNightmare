@@ -21,16 +21,16 @@ setInterval(function() {
   perso.detectCollisionWithMonster(monsters[0]);
   perso.detectCollisionWithMonster(monsters[1]);
   perso.detectCollisionWithBonus(bonus);
-}, 500)
+}, 1000)
 playerCanvas.addEventListener('keydown', function(e) {
   e.preventDefault();
   switch(e.keyCode) {
-  	case 37:
-  	  perso.moveLeft();
-  	  break;
-  	case 38:
-  	  perso.moveUp();
-  	  break;
+    case 37:
+      perso.moveLeft();
+      break;
+    case 38:
+      perso.moveUp();
+      break;
     case 39:
       perso.moveRight();
       break;

@@ -68,3 +68,15 @@ body {
   padding: 0;
   background-color: black;
 }
+#game_elements {
+  margin-left: 50px;
+}
+#life, .avatar {
+  display: inline-block;
+}
+.heart {
+  width: 35px;
+}
+#score {
+  color: white;
+}
