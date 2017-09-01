@@ -1,8 +1,22 @@
+html {
+  font-family: 'Upheaval'
+}
+
 /* Zone header du site */
 #menu_bar {
   width: 100%;
   height: 20%;
-  font-family: 'Henny Penny', cursive;
+  font-family: 'Upheaval', cursive;
+}
+
+@font-face {
+  font-family: 'Upheaval';
+  src: url('./fonts/UpheavalTT-BRK-.eot');
+  src: url('./fonts/UpheavalTT-BRK-.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/UpheavalTT-BRK-.woff') format('woff'),
+    url('./fonts/UpheavalTT-BRK-.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* Titre principale (jeux) */
@@ -29,22 +43,42 @@ h1 {
 
 /* Zone Du jeux */
 
-.background {
+#background {
   width: 800px;
   height: 518px;
   margin: 0 auto;
   display: block;
   position: relative;
-  background-image: url('../image_jeux/the_cellar_bord.png')
 }
 
 #jeux {
   width: 610px;
   height: 328px;
-  background-image: url('../image_jeux/the_cellar_fond.png');
   position: absolute;
   top: 95px;
   left: 95px;
+}
+
+#text {
+  width: 610px;
+  height: 328px;
+  font-size: 32px;
+  position: absolute;
+  top: 95px;
+  left: 95px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+#text p {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: all;
 }
 
 canvas {
@@ -77,6 +111,14 @@ body {
 .heart {
   width: 35px;
 }
-#score {
+#score, #timer {
   color: white;
+}
+
+#start2, #start3, #end {
+  display: none;
+}
+#text .click {
+  font-size: 18px;
+  top: 40%;
 }

@@ -23,6 +23,7 @@ function Personnage() {
 
   this.speed = 10;
   this.life = 3;
+  this.score = 0;
 
   var canvas = document.getElementById('character');
   var gameZone = document.getElementById('jeux');
@@ -115,7 +116,15 @@ function Personnage() {
     this.y < bonus.y + bonus.height && this.y + this.height > bonus.y) {
       bonus.destroy();
       var score = document.getElementById('score');
+      this.score += 10;
       score.innerHTML = parseInt(score.innerHTML) + 10;
     }
+  }
+
+  this.reinitialize = function() {
+    this.ctx.clearRect(this.x, this.y, this.width, this.height);
+    this.x = 0;
+    this.y = 0;
+    this.draw();
   }
 }

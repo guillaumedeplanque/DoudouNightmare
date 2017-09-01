@@ -136,4 +136,8 @@ function Monster(gamePosition) {
       }
     }, 250)
   }
+
+  this.reset = function() {
+    this.ctx.clearRect(this.x, this.y, this.desiredLength, this.desiredLength);
+  }
 }
