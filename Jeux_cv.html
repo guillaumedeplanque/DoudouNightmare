@@ -4,17 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Doudou's Nightmare</title>
+  <title>Hurry Cookie</title>
   <link href="https://fonts.googleapis.com/css?family=Henny+Penny" rel="stylesheet">
   <link rel="stylesheet" href="monCss/jeux_cv.css">
 </head>
 <body>
   <div id="menu_bar">
-    <h1 class="element">Doudou's nightmare</h1>
+    <h1 class="element">Hurry Cookie</h1>
     <nav class="choixCategorie">
-      <a href="#">Bestiaire</a>
-      <a href="#">Linkedin</a>
-      <a href="#">woomba</a>
+      <a class="link" href="https://www.linkedin.com/in/matthias-leutard" target="_blank">
+        <img class="cookie" src="./image_jeux/coockie.png" alt="Cookie">
+        <span>&lt; Linkedin &gt;</span>
+      </a>
+      <a class="link" href="./cv/Matthias_LEUTARD_cv.pdf" target="_blank">
+        <img class="cookie" src="./image_jeux/coockie.png" alt="Cookie">
+        <span>&lt; CV &gt;</span>
+      </a>
+      <a class="link" href="https://github.com/Matthias-Leutard" target="_blank">
+        <img class="cookie" src="./image_jeux/coockie.png" alt="Cookie">
+        <span>&lt; Github &gt;</span>
+      </a>
     </nav>
   </div>
   <div id="game_elements">
@@ -25,7 +34,7 @@
       <img class="heart" src="./image_jeux/girl_heart.png" alt="Life" />
     </div>
     <div id="score">0</div>
-    <div id="timer"></div>
+    <div id="timer">0:00</div>
   </div>
   <div id="background">
     <div id="text">
@@ -41,7 +50,12 @@
         <p>Start level 3</p>
         <p class="click">Click here</p>
       </div>
-      <p id="end">End of the game</p>
+      <div id="end">
+        <p>End of the game</p>
+        <p id="final-score">Score: 0</p>
+        <a class="restart" href="./Jeux_cv.html">Restart game</a>
+        <a class="download-cv" target="_blank" href="./cv/Matthias_LEUTARD_cv.pdf">Download my CV</a>
+      </div>
     </div>
     <div id="jeux">
       <canvas id="character" tabindex="1"></canvas>

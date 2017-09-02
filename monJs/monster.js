@@ -34,17 +34,26 @@ function Monster(gamePosition) {
   this.minX = (gamePosition === 'left') ? 0 : this.canvasWidth / 2;
   this.maxX = (gamePosition === 'left') ? this.canvasWidth / 2 : this.canvasWidth;
 
+  /**
+   * Fonction qui update la position de la frame suivante selon le déplacement du personnage.
+   */
   this.updateFrame = function() {
     this.currentFrame = ++this.currentFrame % this.frameCount;
     this.srcX = this.currentFrame * this.width;
   }
 
+  /**
+   * Initialise les coordonnées x,y d'un monstre à des valeurs aléatoires.
+   */
   this.drawAtRandomPosition = function() {
     this.x = Math.floor(Math.random() * (this.canvasWidth / 2 - this.desiredLength)) + this.minX;
     this.y = Math.floor(Math.random() * (this.canvasHeight - this.desiredLength));
     this.draw();
   }
 
+  /**
+   * Dessine la frame courante du personnage aux coordonnées x,y données.
+   */
   this.draw = function() {
     var image = new Image()
     image.src = './monstre_jeux/grosZombie.png'
@@ -54,6 +63,11 @@ function Monster(gamePosition) {
     }
   }
 
+  /**
+   * Déplacement à droite du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord droit de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveRight = function() {
     this.srcY = this.trackRight * this.height;
     this.ctx.clearRect(this.x, this.y, this.desiredLength, this.desiredLength)
@@ -62,6 +76,11 @@ function Monster(gamePosition) {
     this.updateFrame();
   }
 
+  /**
+   * Déplacement à gauche du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord gauche de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveLeft = function() {
     this.srcY = this.trackLeft * this.height;
     this.ctx.clearRect(this.x, this.y, this.desiredLength, this.desiredLength)
@@ -70,6 +89,11 @@ function Monster(gamePosition) {
     this.updateFrame();
   }
 
+  /**
+   * Déplacement en bas du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord bas de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveBottom = function() {
     this.srcY = this.trackBottom * this.height;
     this.ctx.clearRect(this.x, this.y, this.desiredLength, this.desiredLength);
@@ -78,6 +102,11 @@ function Monster(gamePosition) {
     this.updateFrame();
   }
 
+  /**
+   * Déplacement en haut du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord haut de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveUp = function() {
     this.srcY = this.trackUp * this.height;
     this.ctx.clearRect(this.x, this.y, this.desiredLength, this.desiredLength);
@@ -86,6 +115,14 @@ function Monster(gamePosition) {
     this.updateFrame();
   }
 
+  /**
+   * Déplacement aléatoire d'un monstre. Un monstre initialisé en "left" ne pourra se déplacer que dans la partie
+   * gauche de la zone de jeu, et un monstre initialisé en "right" ne pourra se déplacer que dans la partie droite
+   * de la zone de jeu.
+   * A chaque intervalle, on tire un nombre aléatoire pour déterminer la direction, puis un autre nombre
+   * aléatoire pour déterminer le nombre de pas.
+   * Lors de la collision avec un mur, la fonction se ré-appelle pour changer de direction.
+   */
   this.move = function() {
     var self = this
     var directions = ['up', 'down', 'left', 'right']
@@ -137,6 +174,9 @@ function Monster(gamePosition) {
     }, 250)
   }
 
+  /**
+   * Fonction de remise à zéro des coordonnées du monstre.
+   */
   this.reset = function() {
     this.ctx.clearRect(this.x, this.y, this.desiredLength, this.desiredLength);
   }

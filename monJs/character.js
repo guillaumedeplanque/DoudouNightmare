@@ -31,11 +31,17 @@ function Personnage() {
   this.canvasHeight = gameZone.offsetHeight;
   this.ctx = canvas.getContext('2d');
 
+  /**
+   * Fonction qui update la position de la frame suivante selon le déplacement du personnage.
+   */
   this.updateFrame = function() {
     this.currentFrame = ++this.currentFrame % this.frameCount;
     this.srcX = this.currentFrame * this.width;
   }
 
+  /**
+   * Dessine la frame courante du personnage aux coordonnées x,y données.
+   */
   this.draw = function() {
     var image = new Image()
     image.src = './perso_principal/girl_principal2.png'
@@ -45,6 +51,11 @@ function Personnage() {
     }
   }
 
+  /**
+   * Déplacement à droite du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord droit de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveRight = function() {
     this.srcY = this.trackRight * this.height;
     this.ctx.clearRect(this.x, this.y, this.width, this.height)
@@ -59,6 +70,11 @@ function Personnage() {
     this.updateFrame();
   }
 
+  /**
+   * Déplacement à gauche du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord gauche de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveLeft = function() {
     this.srcY = this.trackLeft * this.height;
     this.ctx.clearRect(this.x, this.y, this.width, this.height)
@@ -72,6 +88,11 @@ function Personnage() {
     this.updateFrame();
   }
 
+  /**
+   * Déplacement en bas du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord bas de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveBottom = function() {
     this.srcY = this.trackBottom * this.height;
     this.ctx.clearRect(this.x, this.y, this.width, this.height);
@@ -86,6 +107,11 @@ function Personnage() {
     this.updateFrame();
   }
 
+  /**
+   * Déplacement en haut du personnage : nettoyage du canvas aux anciennes coordonnées,
+   * vérification si le personnage a atteint le bord haut de la zone de jeu pour l'empêcher de sortir,
+   * puis mise à jour de la frame et dessin sur le canvas.
+   */
   this.moveUp = function() {
     this.srcY = this.trackUp * this.height;
     this.ctx.clearRect(this.x, this.y, this.width, this.height);
@@ -98,6 +124,13 @@ function Personnage() {
     this.updateFrame();
   }
 
+  /**
+   * Vérification de la collision entre un montre et le personnage.
+   * L’algorithme suivant fonctionne en vérifiant qu’il n’y a pas d’espace vide entre les 4 côtés du rectangle.
+   * Si l’ensemble du rectangle est entouré de vide, on en conclut qu’il n’y a pas de collision.
+   * L'algorithme est modifié de façon à réduire un peu la zone de collision pour coller un peu plus à la forme
+   * des sprites.
+   */
   this.detectCollisionWithMonster = function(monster) {
     if (this.x + ((this.x * 5) / 100) < monster.x + monster.desiredLength  && this.x + this.width  > monster.x + ((monster.x * 5) / 100) &&
     this.y + ((this.y * 8) / 100) < monster.y + monster.desiredLength && this.y + this.height > monster.y + ((monster.y * 8) / 100)) {
@@ -111,6 +144,10 @@ function Personnage() {
     } return false;
   }
 
+  /**
+   * Vérification de la collision entre un montre et le personnage.
+   * L'algorithme est le même qu'au dessus, mais non modifié pour "faciliter" la collision avec le cookie.
+   */
   this.detectCollisionWithBonus = function(bonus) {
     if (this.x < bonus.x + bonus.width  && this.x + this.width  > bonus.x &&
     this.y < bonus.y + bonus.height && this.y + this.height > bonus.y) {
@@ -121,6 +158,9 @@ function Personnage() {
     }
   }
 
+  /**
+   * Fonction de remise à zéro des coordonnées du personnage.
+   */
   this.reinitialize = function() {
     this.ctx.clearRect(this.x, this.y, this.width, this.height);
     this.x = 0;

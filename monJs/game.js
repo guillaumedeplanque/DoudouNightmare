@@ -2,10 +2,10 @@ var playerCanvas = document.getElementById('character');
 var monsterCanvas = document.getElementById('monster');
 var bonusCanvas = document.getElementById('bonus');
 var gameZone = document.getElementById('jeux');
-var startLevel1Button = document.getElementById('start1');
-var startLevel2Button = document.getElementById('start2');
-var startLevel3Button = document.getElementById('start3');
-var endButton = document.getElementById('end');
+var startLevel1Screen = document.getElementById('start1');
+var startLevel2Screen = document.getElementById('start2');
+var startLevel3Screen = document.getElementById('start3');
+var endScreen = document.getElementById('end');
 playerCanvas.width = monsterCanvas.width = bonusCanvas.width = gameZone.clientWidth;
 playerCanvas.height = monsterCanvas.height = bonusCanvas.height = gameZone.clientHeight;
 
@@ -15,6 +15,10 @@ function Game(playerCanvas) {
   this.player = null
   this.monsters = [];
   this.bonus = null;
+
+  /**
+   * Fonction qui assigne l'événement de déplacement au clavier pour le personnage.
+   */
   this.bindCharacterMovement = function(playerCanvas) {
     playerCanvas.focus();
     var self = this;
@@ -36,11 +40,19 @@ function Game(playerCanvas) {
       }
     });
   }
+
+  /**
+   * Création du personnage.
+   */
   this.createPlayer = function() {
     this.player = new Personnage()
     this.bindCharacterMovement(playerCanvas);
     this.player.draw();
   }
+
+  /**
+   * Création des monstres.
+   */
   this.createMonsters = function() {
     this.monsters.push(new Monster('left'))
     this.monsters.push(new Monster('right'))
@@ -49,23 +61,41 @@ function Game(playerCanvas) {
       this.monsters[i].move();
     }
   }
+
+  /**
+   * Création du bonus.
+   */
   this.createBonus = function() {
     this.bonus = new Bonus();
     this.bonus.positionBonus();
   }
+
+  /**
+   * Initialisation des détections entre le personnage et les monstres, et entre le personnage et le bonus
+   */
   this.detectGameCollision = function() {
     var self = this;
-    var detectionInterval = setInterval(function() {
+    var detectionMonsterInterval = setInterval(function() {
       for (var i = 0; i < self.monsters.length; i++) {
         self.player.detectCollisionWithMonster(self.monsters[i]);
       }
+      if (self.player.life === 0) {
+        self.finishGame();
+        clearInterval(detectionMonsterInterval)
+      }
+    }, 1000)
+    var detectionBonusInterval = setInterval(function() {
       self.player.detectCollisionWithBonus(self.bonus)
       if (self.player.life === 0) {
         self.finishGame();
-        clearInterval(detectionInterval)
+        clearInterval(detectionBonusInterval)
       }
-    }, 1000)
+    }, 500)
   }
+
+  /**
+   * Création du premier niveau, du personnage, des monstres, du bonus et initialisation des collisions.
+   */
   this.initGame = function() {
     var background = document.getElementById('background')
     var fond = document.getElementById('jeux')
@@ -76,6 +106,11 @@ function Game(playerCanvas) {
     this.createBonus();
     this.detectGameCollision();
   }
+
+  /**
+   * Fonction gérant le timer du jeu. A la fin de celui-ci, si le joueur a encore une ou plusieurs vies,
+   * le jeu change de niveau. Si celui-ci n'a plus de vie ou si il a atteint la fin du 3e niveau, chargement de l'écran de fin.
+   */
   this.startGame = function() {
     var self = this;
     var timer = document.getElementById('timer');
@@ -95,8 +130,8 @@ function Game(playerCanvas) {
             self.monsters[i].speed = 20
           }
           self.hideCanvas();
-          startLevel2Button.style.display = 'block';
-          startLevel2Button.addEventListener('click', function() {
+          startLevel2Screen.style.display = 'block';
+          startLevel2Screen.addEventListener('click', function() {
             self.restartGame();
             playerCanvas.focus();
           })
@@ -109,8 +144,8 @@ function Game(playerCanvas) {
             self.monsters[i].speed = 25
           }
           self.hideCanvas();
-          startLevel3Button.style.display = 'block';
-          startLevel3Button.addEventListener('click', function() {
+          startLevel3Screen.style.display = 'block';
+          startLevel3Screen.addEventListener('click', function() {
             self.restartGame();
             playerCanvas.focus();
           })
@@ -124,6 +159,11 @@ function Game(playerCanvas) {
       }
     }, 1000)
   }
+
+  /**
+   * Replacement du personnage aux coordonnées de départ, placement aléatoire des monstres et
+   * du bonus. Remise à 1:00 du compteur.
+   */
   this.restartGame = function() {
     this.hideButtons();
     this.showCanvas();
@@ -136,31 +176,59 @@ function Game(playerCanvas) {
     this.levelTimer = 60000;
     this.startGame();
   }
+
+  /**
+   * Appel de l'écran de fin du jeu.
+   */
   this.finishGame = function() {
     this.hideCanvas();
     this.levelTimer = 0;
-    endButton.style.display = 'block'
+    endScreen.style.display = 'block';
+    var finalScore = document.getElementById('final-score');
+    finalScore.innerHTML = 'Score: ' + this.player.score;
   }
+
+  /**
+   * Helper permettant de cacher les canvas de jeu.
+   */
   this.hideCanvas = function() {
     playerCanvas.style.display = 'none'
     monsterCanvas.style.display = 'none'
     bonusCanvas.style.display = 'none'
   }
+
+  /**
+   * Helper permettant d'afficher les canvas de jeu.
+   */
   this.showCanvas = function() {
     playerCanvas.style.display = 'block'
     monsterCanvas.style.display = 'block'
     bonusCanvas.style.display = 'block'
   }
+
+  /**
+   * Helper permettant de cacher les interstitiels.
+   */
   this.hideButtons = function() {
-    startLevel1Button.style.display = 'none'
-    startLevel2Button.style.display = 'none'
-    startLevel3Button.style.display = 'none'
+    startLevel1Screen.style.display = 'none'
+    startLevel2Screen.style.display = 'none'
+    startLevel3Screen.style.display = 'none'
   }
 }
 
+var cookies = document.getElementsByClassName('cookie');
+for (var i = 0; i < cookies.length; i++) {
+  cookies[i].addEventListener('mouseover', function() {
+    this.src = "./image_jeux/coockie_mange.png"
+  });
+  cookies[i].addEventListener('mouseout', function() {
+    this.src = "./image_jeux/coockie.png"
+  })
+}
+
 var game = new Game(playerCanvas);
-startLevel1Button.addEventListener('click', function() {
-  startLevel1Button.style.display = 'none'
+startLevel1Screen.addEventListener('click', function() {
+  startLevel1Screen.style.display = 'none'
   game.initGame();
   game.startGame();
 })
